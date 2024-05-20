@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "747978596201",
+    "firebase_url": "https://btaplon-dd8ee-default-rtdb.firebaseio.com",
+    "project_id": "btaplon-dd8ee",
+    "storage_bucket": "btaplon-dd8ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747978596201:android:f0dbb6c03043ca5ad2a7f8",
+        "android_client_info": {
+          "package_name": "com.example.movieapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqJYflM8lu5yikZ_ooJ9Doo1FbuohgzCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
