@@ -44,10 +44,10 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
     String videoCategory;
     String videotitle;
     String currentuid;
-    StorageReference mstorageRef;
+    StorageReference mstorageRef; //một biến kiểu StorageReference được sử dụng để tham chiếu đến vị trí lưu trữ các tệp trong Firebase Storage
     StorageTask mUploadsTask;//StorageTask là một lớp trong Firebase SDK nó được sử dụng để thực hiện các tác vụ như tải lên tệp, tải xuống tệp, xóa tệp, di chuyển tệp và cập nhật thông tin về tệp.
-    DatabaseReference referenceVidoes;
-    FirebaseDatabase database;
+    DatabaseReference referenceVidoes; //một biến kiểu DatabaseReference được sử dụng để tham chiếu đến vị trí lưu trữ thông tin về các video trong Firebase Realtime Database
+    FirebaseDatabase database; //Đây là một biến kiểu FirebaseDatabase được sử dụng để tương tác với Firebase Realtime Database
     EditText video_description;
 
     @Override
@@ -91,7 +91,7 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-    public  void openvideoFiles(View view){
+    public void openvideoFiles(View view){
         Intent in = new Intent(Intent.ACTION_GET_CONTENT);
         in.setType("video/*");
         startActivityForResult(in,101);
@@ -124,6 +124,52 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
 
         }
     }
+    public void uploadFileToFirebase(View v){
+        if(text_video_selected.getText().equals("No Video Selected")){
+            Toast.makeText(this,"please selected an video!",Toast.LENGTH_SHORT).show();
+        }else{
+            if(mUploadsTask != null && mUploadsTask.isInProgress()){
+                Toast.makeText(this,"video uploads is all already in progress...",Toast.LENGTH_SHORT).show();
+            }else{
+                uploadFile();
+            }
+        }
+    }
 
+    private void uploadFile() {
+        if(videoUri != null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("video uploading...");
+            progressDialog.show();
+            final StorageReference storageReference = mstorageRef.child(videotitle);
+
+            mUploadsTask = storageReference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String video_url = uri.toString();
+
+                            VideoUploadDetails videoUploadDetails = new VideoUploadDetails("", "", "", video_url, videotitle, video_description.getText().toString(), videoCategory);
+                            String uploadsid = referenceVidoes.push().getKey();
+                            referenceVidoes.child(uploadsid).setValue(videoUploadDetails);
+                            currentuid = uploadsid;
+                            progressDialog.dismiss();
+                        }
+                    });
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                    progressDialog.setMessage("uploaded "+((int) progress)+"%...");
+                }
+            });
+        }else{
+            Toast.makeText(this,"No Video Selected To Upload",Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
