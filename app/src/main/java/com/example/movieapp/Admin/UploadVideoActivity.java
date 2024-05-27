@@ -104,15 +104,14 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
         if ((requestCode == 101)&& (resultCode == RESULT_OK)&& (data.getData()!=null)){
 
             videoUri = data.getData();
-            Toast.makeText(this,   referenceVidoes+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,   referenceVidoes+"", Toast.LENGTH_SHORT).show(); //một thông báo với số lượng video tham chiếu (referenceVidoes)
             String path = null;
             Cursor cursor;
             int coloum_index_data;
             String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Video.Media.BUCKET_DISPLAY_NAME,MediaStore.Video.Media._ID, MediaStore.Video.Thumbnails.DATA};
             final String orderby = MediaStore.Video.Media.DEFAULT_SORT_ORDER;
-            cursor = UploadVideoActivity.this.getContentResolver().query(videoUri,projection,null,null,orderby);//Truy vấn này sẽ trả về thông tin về tệp video đó, bao gồm đường dẫn tệp, tên thư mục chứa tệp, ID của tệp và đường dẫn đến hình ảnh thu nhỏ của tệp.
-            coloum_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);//lấy ra chỉ số của cột được chỉ định
-//            Toast.makeText(this,videoUri+"",Toast.LENGTH_SHORT).show();
+            cursor = UploadVideoActivity.this.getContentResolver().query(videoUri,projection,null,null,orderby);//tạo ra một Cursor chứa các thông tin về video được lấy từ URI videoUri, bao gồm các cột được chỉ định trong projection
+            coloum_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);//lấy ra chỉ số của cột chứa đường dẫn tệp video trong Cursor
 
             while (cursor.moveToNext()){
                 path = cursor.getString( coloum_index_data);//lấy giá trị của cột tại vị trí coloum_index_data
@@ -120,8 +119,6 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
 
             }
             text_video_selected.setText(videotitle);
-
-
         }
     }
     public void uploadFileToFirebase(View v){
@@ -151,16 +148,18 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
                         @Override
                         public void onSuccess(Uri uri) {
                             String video_url = uri.toString();
-
                             VideoUploadDetails videoUploadDetails = new VideoUploadDetails("", "", "", video_url, videotitle, video_description.getText().toString(), videoCategory);
-                            String uploadsid = referenceVidoes.push().getKey();
+                            String uploadsid = referenceVidoes.push().getKey(); //Tạo một khóa duy nhất mới cho bài đăng video
                             referenceVidoes.child(uploadsid).setValue(videoUploadDetails);
                             currentuid = uploadsid;
-                            progressDialog.dismiss();
+                            progressDialog.dismiss(); //Hộp thoại tiến trình tải lên được đóng khi quá trình hoàn tất
+                            if (currentuid.equals(uploadsid)){
+                                startThumbnailsActivity();
+                            }
                         }
                     });
                 }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() { //1 callback để được gọi khi quá trình tải lên có sự thay đổi về tiến độ
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
@@ -171,5 +170,11 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(this,"No Video Selected To Upload",Toast.LENGTH_SHORT).show();
         }
     }
-
+    public void startThumbnailsActivity(){
+        Intent in = new Intent(UploadVideoActivity.this,UploadThumbnailActivity.class);
+        in.putExtra("currentuid",currentuid);
+        in.putExtra("thumbnailsName",videotitle);
+        startActivity(in);
+        Toast.makeText(this, "video uploaded successfully upload video thumnail", Toast.LENGTH_LONG).show();
+    }
 }
