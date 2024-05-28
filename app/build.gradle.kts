@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     id("com.google.gms.google-services")
+
 }
+
 
 android {
     namespace = "com.example.movieapp"
@@ -30,6 +32,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -38,12 +41,25 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    
-    implementation(libs.commonsIo)
+
+    implementation(libs.commons.io)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
+
+//    client app
+    implementation(libs.appcompat.v7)
+    implementation(libs.support.v4)
+    implementation(libs.design)
+    implementation(libs.exoplayer)
+    implementation(libs.mediarouter.v7)
+    implementation(libs.play.services.cast.framework)
+    implementation(libs.android.query)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
