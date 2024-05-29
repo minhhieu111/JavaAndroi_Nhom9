@@ -17,6 +17,9 @@
             android:exported="false" />
         <activity
             android:name=".Admin.UploadVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
