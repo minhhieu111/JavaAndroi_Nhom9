@@ -27,7 +27,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.movieapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -70,10 +69,10 @@ public class UploadThumbnailActivity extends AppCompatActivity {
         String currentUid = getIntent().getExtras().getString("currentuid");
         updatedataref = FirebaseDatabase.getInstance().getReference("videos").child(currentUid);
 
+
         radioButtonNotype.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String latesMovies = radioButtonlatest.getText().toString();
                 updatedataref.child("video_type").setValue("");
                 updatedataref.child("video_slide").setValue("");
                 Toast.makeText(UploadThumbnailActivity.this, "Selected: No Type", Toast.LENGTH_SHORT).show();
@@ -86,7 +85,7 @@ public class UploadThumbnailActivity extends AppCompatActivity {
                 String latesMovies = radioButtonlatest.getText().toString();
                 updatedataref.child("video_type").setValue(latesMovies);
                 updatedataref.child("video_slide").setValue("");
-                Toast.makeText(UploadThumbnailActivity.this, "Selected: "+ latesMovies, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadThumbnailActivity.this, "Selected "+ latesMovies, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -96,7 +95,7 @@ public class UploadThumbnailActivity extends AppCompatActivity {
                 String popularMovies = radioButtonpopular.getText().toString();
                 updatedataref.child("video_type").setValue(popularMovies);
                 updatedataref.child("video_slide").setValue("");
-                Toast.makeText(UploadThumbnailActivity.this, "Selected: "+ popularMovies, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadThumbnailActivity.this, "Selected "+ popularMovies, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,7 +104,7 @@ public class UploadThumbnailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String slideMovies = radioButtonSlide.getText().toString();
                 updatedataref.child("video_slide").setValue(slideMovies);
-                Toast.makeText(UploadThumbnailActivity.this, "Selected: "+ slideMovies, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadThumbnailActivity.this, "Selected "+ slideMovies, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -157,14 +156,14 @@ public class UploadThumbnailActivity extends AppCompatActivity {
         return result;
     }
 
-    private  void uploadFiles(){
+    private void uploadFiles(){
         if (videothumburi != null){
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("wait uploading thumbnail ...");
             progressDialog.show();
             String video_title = getIntent().getExtras().getString("thumbnailsName");
 
-            StorageReference sRef = mStoragerefthumbnails.child(video_title+"."+getfileExtension(videothumburi));
+            final StorageReference sRef = mStoragerefthumbnails.child(video_title+"."+getfileExtension(videothumburi));
 
             sRef.putFile(videothumburi).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -188,7 +187,7 @@ public class UploadThumbnailActivity extends AppCompatActivity {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                    progressDialog.setMessage("upload"+((int)progress)+"%...");
+                    progressDialog.setMessage("upload "+((int)progress)+"%...");
                 }
             });
 
@@ -199,7 +198,7 @@ public class UploadThumbnailActivity extends AppCompatActivity {
             Toast.makeText(this, "first select an image", Toast.LENGTH_SHORT).show();
         }else {
             if (mStorageTask != null && mStorageTask.isInProgress()){
-                Toast.makeText(this, "upload files allready in progress", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "upload files already in progress", Toast.LENGTH_SHORT).show();
             }else {
                 uploadFiles();
             }
@@ -208,6 +207,6 @@ public class UploadThumbnailActivity extends AppCompatActivity {
     public String getfileExtension(Uri uri){
         ContentResolver cr = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri)); //lấy phần mở rộng tệp dựa trên kiểu MIME. Nếu kiểu MIME là image/jpeg, nó sẽ trả về jpg.
     }
 }

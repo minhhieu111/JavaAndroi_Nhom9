@@ -3,17 +3,19 @@ package com.example.movieapp.Adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
+
+import com.example.movieapp.Models.MovieItemClickListenerNew;
 import com.example.movieapp.Models.SliderSide;
 import com.example.movieapp.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 import java.util.List;
 
@@ -22,9 +24,14 @@ public class SliderPagerAdapterNew extends PagerAdapter {
     private Context mContext;
     List<SliderSide> mList;
 
-    public SliderPagerAdapterNew(Context mcontext, List<SliderSide> mList) {
+    MovieItemClickListenerNew movieItemClickListenerNew;
+
+
+
+    public SliderPagerAdapterNew(Context mcontext, List<SliderSide> mList, MovieItemClickListenerNew movieItemClickListenerNew) {
         this.mContext = mcontext;
         this.mList = mList;
+        this.movieItemClickListenerNew = movieItemClickListenerNew;
     }
 
     @NonNull
@@ -36,15 +43,15 @@ public class SliderPagerAdapterNew extends PagerAdapter {
         ImageView slideimage = slideLayout.findViewById(R.id.slide_img);
         TextView slidetitle = slideLayout.findViewById(R.id.slide_title);
 
-        FloatingActionButton floatingActionButton = slideLayout.findViewById(R.id.floatingActionButton);
         Glide.with(mContext).load(mList.get(position).getVideo_thumb()).into(slideimage);
 
-        slidetitle.setText(mList.get(position).getVideo_name()+"\n"+mList.get(position).getVideo_description());
+        slidetitle.setText(mList.get(position).getVideo_name());
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        slideLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                Toast.makeText(mContext, position+"Clicked", Toast.LENGTH_SHORT).show();
+                movieItemClickListenerNew.onMovieClick(mList.get(position),slideimage);
             }
         });
 

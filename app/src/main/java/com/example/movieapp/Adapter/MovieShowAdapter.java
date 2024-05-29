@@ -33,17 +33,17 @@ public class MovieShowAdapter extends RecyclerView.Adapter<MovieShowAdapter.MyVi
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MovieShowAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.movie_item_new,parent,false);
 
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MovieShowAdapter.MyViewHolder holder, int position) {
         GetVideoDetails getVideoDetails = uploads.get(position);
         holder.tvTitle.setText(getVideoDetails.getVideo_name());
-        Glide.with(mContext).load(getVideoDetails.getVideo_thumb()).into(holder.imgMovie);
+        Glide.with(mContext).load(getVideoDetails.getVideo_thumb()).into(holder.ImgMovie);
     }
 
     @Override
@@ -54,18 +54,18 @@ public class MovieShowAdapter extends RecyclerView.Adapter<MovieShowAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle;
-        ImageView imgMovie;
+        ImageView ImgMovie;
         ConstraintLayout container;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.item_movie_title);
-            imgMovie = itemView.findViewById(R.id.item_movies_img);
+            ImgMovie = itemView.findViewById(R.id.item_movies_img);
             container = itemView.findViewById(R.id.container);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    movieItemClickListenerNew.onMovieClick(uploads.get(getAdapterPosition()),imgMovie);
+                    movieItemClickListenerNew.onMovieClick(uploads.get(getAdapterPosition()),ImgMovie);
                 }
             });
         }
