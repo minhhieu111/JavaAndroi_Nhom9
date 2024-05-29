@@ -56,11 +56,11 @@ public class VideoUploadDetails {
         this.video_name = video_name;
     }
 
-    public String getVide0_description() {
+    public String getVideo_description() {
         return video_description;
     }
 
-    public void setVide0_description(String video_description) {
+    public void setVideo_description(String video_description) {
         this.video_description = video_description;
     }
 

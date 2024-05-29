@@ -44,10 +44,10 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
     String videoCategory;
     String videotitle;
     String currentuid;
-    StorageReference mstorageRef; //một biến kiểu StorageReference được sử dụng để tham chiếu đến vị trí lưu trữ các tệp trong Firebase Storage
+    StorageReference mstorageRef;
     StorageTask mUploadsTask;//StorageTask là một lớp trong Firebase SDK nó được sử dụng để thực hiện các tác vụ như tải lên tệp, tải xuống tệp, xóa tệp, di chuyển tệp và cập nhật thông tin về tệp.
-    DatabaseReference referenceVidoes; //một biến kiểu DatabaseReference được sử dụng để tham chiếu đến vị trí lưu trữ thông tin về các video trong Firebase Realtime Database
-    FirebaseDatabase database; //Đây là một biến kiểu FirebaseDatabase được sử dụng để tương tác với Firebase Realtime Database
+    DatabaseReference referenceVidoes;
+    FirebaseDatabase database;
     EditText video_description;
 
     @Override
@@ -71,7 +71,7 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
         List<String> categories = new ArrayList<>();
         categories.add("Action");
         categories.add("Adventure");
-        categories.add("Sports");
+        categories.add("Sport");
         categories.add("Romantic");
         categories.add("Comedy");
 
@@ -104,14 +104,15 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
         if ((requestCode == 101)&& (resultCode == RESULT_OK)&& (data.getData()!=null)){
 
             videoUri = data.getData();
-            Toast.makeText(this,   referenceVidoes+"", Toast.LENGTH_SHORT).show(); //một thông báo với số lượng video tham chiếu (referenceVidoes)
+            Toast.makeText(this,   referenceVidoes+"", Toast.LENGTH_SHORT).show();
             String path = null;
             Cursor cursor;
             int coloum_index_data;
             String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Video.Media.BUCKET_DISPLAY_NAME,MediaStore.Video.Media._ID, MediaStore.Video.Thumbnails.DATA};
             final String orderby = MediaStore.Video.Media.DEFAULT_SORT_ORDER;
-            cursor = UploadVideoActivity.this.getContentResolver().query(videoUri,projection,null,null,orderby);//tạo ra một Cursor chứa các thông tin về video được lấy từ URI videoUri, bao gồm các cột được chỉ định trong projection
-            coloum_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);//lấy ra chỉ số của cột chứa đường dẫn tệp video trong Cursor
+            cursor = UploadVideoActivity.this.getContentResolver().query(videoUri,projection,null,null,orderby);//Truy vấn này sẽ trả về thông tin về tệp video đó, bao gồm đường dẫn tệp, tên thư mục chứa tệp, ID của tệp và đường dẫn đến hình ảnh thu nhỏ của tệp.
+            coloum_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);//lấy ra chỉ số của cột được chỉ định
+            Toast.makeText(this,videoUri+"",Toast.LENGTH_SHORT).show();
 
             while (cursor.moveToNext()){
                 path = cursor.getString( coloum_index_data);//lấy giá trị của cột tại vị trí coloum_index_data
@@ -119,17 +120,19 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
 
             }
             text_video_selected.setText(videotitle);
+
+
         }
     }
     public void uploadFileToFirebase(View v){
         if(text_video_selected.getText().equals("No Video Selected")){
             Toast.makeText(this,"please selected an video!",Toast.LENGTH_SHORT).show();
         }else{
-            if(mUploadsTask != null && mUploadsTask.isInProgress()){
-                Toast.makeText(this,"video uploads is all already in progress...",Toast.LENGTH_SHORT).show();
-            }else{
-                uploadFile();
-            }
+                if(mUploadsTask != null && mUploadsTask.isInProgress()){
+                    Toast.makeText(this,"video uploads is all already in progress...",Toast.LENGTH_SHORT).show();
+                }else{
+                    uploadFile();
+                }
         }
     }
 
@@ -148,18 +151,19 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
                         @Override
                         public void onSuccess(Uri uri) {
                             String video_url = uri.toString();
-                            VideoUploadDetails videoUploadDetails = new VideoUploadDetails("", "", "", video_url, videotitle, video_description.getText().toString(), videoCategory);
-                            String uploadsid = referenceVidoes.push().getKey(); //Tạo một khóa duy nhất mới cho bài đăng video
+
+                            VideoUploadDetails videoUploadDetails = new VideoUploadDetails("", "", "", video_url, videotitle,video_description.getText().toString(), videoCategory);
+                            String uploadsid = referenceVidoes.push().getKey();
                             referenceVidoes.child(uploadsid).setValue(videoUploadDetails);
                             currentuid = uploadsid;
-                            progressDialog.dismiss(); //Hộp thoại tiến trình tải lên được đóng khi quá trình hoàn tất
+                            progressDialog.dismiss();
                             if (currentuid.equals(uploadsid)){
                                 startThumbnailsActivity();
                             }
                         }
                     });
                 }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() { //1 callback để được gọi khi quá trình tải lên có sự thay đổi về tiến độ
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());

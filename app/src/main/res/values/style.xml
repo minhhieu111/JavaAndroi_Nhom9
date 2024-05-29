@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Thiết lập màu cho ActionBar -->
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <!-- Thiết lập màu cho các tiêu đề trong ActionBar -->
+<!--        <item name="android:textColorPrimary">@color/white</item>-->
+
+        <!-- Thiết lập màu cho các biểu tượng trong ActionBar -->
+<!--        <item name="colorControlNormal">@color/white</item>-->
+    </style>
+</resources>

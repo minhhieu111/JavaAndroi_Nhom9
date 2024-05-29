@@ -1,13 +1,12 @@
 package com.example.movieapp.User;
 
-import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -28,7 +27,6 @@ import com.example.movieapp.Models.MovieItemClickListenerNew;
 import com.example.movieapp.Models.SliderSide;
 import com.example.movieapp.R;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -143,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
     }
 
     private void inniSlider() {
-        SliderPagerAdapterNew adapterNew = new SliderPagerAdapterNew(this, uploadsSlider);
+        SliderPagerAdapterNew adapterNew = new SliderPagerAdapterNew(this, uploadsSlider,this);
         sliderPager.setAdapter(adapterNew);
         adapterNew.notifyDataSetChanged();
 
@@ -223,8 +220,29 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
     }
 
     @Override
-    public void onMovieClick(GetVideoDetails getVideoDetails, ImageView imageView) {
+    public void onMovieClick(GetVideoDetails movie, ImageView imageView) {
+        Intent in = new Intent(this, MovieDetailsActivity.class);
+        in.putExtra("title",movie.getVideo_name());
+        in.putExtra("imgURL",movie.getVideo_thumb());
+        in.putExtra("imgCover",movie.getVideo_thumb());
+        in.putExtra("movieDetail",movie.getVideo_description());
+        in.putExtra("movieUrl",movie.getVideo_url());
+        in.putExtra("movieCategory",movie.getVideo_category());
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this,imageView, "sharedName");
+        startActivity(in,options.toBundle());
+    }
 
+    @Override
+    public void onMovieClick(SliderSide movie, ImageView imageView) {
+        Intent in = new Intent(this, MovieDetailsActivity.class);
+        in.putExtra("title",movie.getVideo_name());
+        in.putExtra("imgURL",movie.getVideo_thumb());
+        in.putExtra("imgCover",movie.getVideo_thumb());
+        in.putExtra("movieDetail",movie.getVideo_description());
+        in.putExtra("movieUrl",movie.getVideo_url());
+        in.putExtra("movieCategory",movie.getVideo_category());
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this,imageView, "sharedName");
+        startActivity(in,options.toBundle());
     }
 
     public class SliderTime extends TimerTask {
