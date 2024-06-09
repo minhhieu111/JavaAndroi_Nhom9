@@ -12,6 +12,8 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.movieapp.Models.MovieItemClickListenerNew;
 import com.example.movieapp.Models.SliderSide;
 import com.example.movieapp.R;
@@ -50,7 +52,6 @@ public class SliderPagerAdapterNew extends PagerAdapter {
         slideLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mContext, position+"Clicked", Toast.LENGTH_SHORT).show();
                 movieItemClickListenerNew.onMovieClick(mList.get(position),slideimage);
             }
         });

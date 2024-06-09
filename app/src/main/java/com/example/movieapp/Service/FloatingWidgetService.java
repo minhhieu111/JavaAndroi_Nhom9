@@ -75,12 +75,8 @@ public class FloatingWidgetService extends Service {
             params.y = 200;
             mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
             mWindowManager.addView(mFloatingWidget, params);
-            DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(this).build();
-            DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
-            exoPlayer = new SimpleExoPlayer.Builder(this)
-                    .setTrackSelector(trackSelector)
-                    .setBandwidthMeter(bandwidthMeter)
-                    .build();
+
+            exoPlayer = new SimpleExoPlayer.Builder(this).build();
             playerView = mFloatingWidget.findViewById(R.id.playerView);
             ImageView imageViewclose = mFloatingWidget.findViewById(R.id.imageViewDismiss);
             ImageView imageViewMaxmize = mFloatingWidget.findViewById(R.id.imageViewMaximize);
@@ -151,12 +147,7 @@ public class FloatingWidgetService extends Service {
         public void playVideos(){
 
             try {
-                DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(this).build();
-                DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
-                exoPlayer = new SimpleExoPlayer.Builder(this)
-                        .setTrackSelector(trackSelector)
-                        .setBandwidthMeter(bandwidthMeter)
-                        .build();
+                exoPlayer = new SimpleExoPlayer.Builder(this).build();
                 String playInfo = Util.getUserAgent(this, "VideoPlayer");
                 DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, playInfo);
                 MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUri));
