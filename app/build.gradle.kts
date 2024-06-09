@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.mediarouter.v7)
     implementation(libs.play.services.cast.framework)
     implementation(libs.android.query)
+    implementation(libs.cardview)
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
 

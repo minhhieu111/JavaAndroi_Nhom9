@@ -71,8 +71,6 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
 
         inViews();
         addAllMovies();
-
-
     }
 
     private void addAllMovies(){

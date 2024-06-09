@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -35,9 +36,10 @@ import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieItemClickListenerNew {
     private ImageView MoviesThumbNail, MoviesCoverImg;
-    TextView tv_title, tv_descrition;
+    TextView tv_title, tv_descrition, actionbar_title;
+    ImageView btn_back, btn_search;
     FloatingActionButton play_fab;
-    RecyclerView RvCast, recyclerViewSimilarMovies;
+    RecyclerView recyclerViewSimilarMovies;
     MovieShowAdapter movieShowAdapter;
     DatabaseReference mDatabasereferance;
     List<GetVideoDetails> uploads, actionsMovies, sportMovies, comedyMovies, romanticMovies, adventureMovies;
@@ -52,6 +54,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setCustomView(R.layout.actionbar_detail);
+            actionbar_title = actionBar.getCustomView().findViewById(R.id.movie_title);
+            btn_back = actionBar.getCustomView().findViewById(R.id.btn_back);
+        }
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
         inView();
@@ -88,7 +103,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         Glide.with(this).load(imageCover).into(MoviesCoverImg);
         tv_title.setText(movieTitle);
         tv_descrition.setText(moviesDetailstext);
-        getSupportActionBar().setTitle(movieTitle);;
+        actionbar_title.setText(movieTitle);;
     }
 
     private void similarMoviesRecycler() {
@@ -165,7 +180,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
     @Override
     public void onMovieClick(GetVideoDetails movie, ImageView imageView) {
         tv_title.setText(movie.getVideo_name());
-        getSupportActionBar().setTitle(movie.getVideo_name());
+        actionbar_title.setText(movie.getVideo_name());
         Glide.with(this).load(movie.getVideo_thumb()).into(MoviesThumbNail);
         Glide.with(this).load(movie.getVideo_thumb()).into(MoviesCoverImg);
         tv_descrition.setText(movie.getVideo_description());

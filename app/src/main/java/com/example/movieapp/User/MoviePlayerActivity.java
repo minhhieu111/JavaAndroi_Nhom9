@@ -75,10 +75,9 @@ public class MoviePlayerActivity extends AppCompatActivity {
         exoPlayer = new SimpleExoPlayer.Builder(this).build();
 
         playVideo();
-    }
+    }   
 
     private void setFullScreen(){
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
