@@ -1,6 +1,7 @@
 package com.example.movieapp.User;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -36,14 +37,15 @@ import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieItemClickListenerNew {
     private ImageView MoviesThumbNail, MoviesCoverImg;
-    TextView tv_title, tv_descrition, actionbar_title;
-    ImageView btn_back, btn_search;
+    TextView tv_title, tv_descrition, actionbarTitle;
+    ImageView btnBack, btnSearch;
     FloatingActionButton play_fab;
     RecyclerView recyclerViewSimilarMovies;
     MovieShowAdapter movieShowAdapter;
     DatabaseReference mDatabasereferance;
     List<GetVideoDetails> uploads, actionsMovies, sportMovies, comedyMovies, romanticMovies, adventureMovies;
     String current_video_url, current_video_category;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +61,31 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(R.layout.actionbar_detail);
-            actionbar_title = actionBar.getCustomView().findViewById(R.id.movie_title);
-            btn_back = actionBar.getCustomView().findViewById(R.id.btn_back);
+            actionbarTitle = actionBar.getCustomView().findViewById(R.id.movie_title);
+            btnBack = actionBar.getCustomView().findViewById(R.id.btn_back);
+            btnSearch = actionBar.getCustomView().findViewById(R.id.btn_search);
+
+            btnSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MovieDetailsActivity.this, SearchActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
-        btn_back.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
+        progressDialog = new ProgressDialog(this);
+
         inView();
         similarMoviesRecycler();
-        similarMovies();
+
+
 
         play_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +117,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         Glide.with(this).load(imageCover).into(MoviesCoverImg);
         tv_title.setText(movieTitle);
         tv_descrition.setText(moviesDetailstext);
-        actionbar_title.setText(movieTitle);;
+        actionbarTitle.setText(movieTitle);;
     }
 
     private void similarMoviesRecycler() {
@@ -115,6 +129,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         actionsMovies = new ArrayList<>();
 
         mDatabasereferance = FirebaseDatabase.getInstance().getReference("videos");
+        progressDialog.setMessage("loading...");
+        progressDialog.show();
         mDatabasereferance.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -136,6 +152,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
                         romanticMovies.add(upload);
                     }
                 }
+                similarMovies();
+                progressDialog.dismiss();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -180,7 +198,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
     @Override
     public void onMovieClick(GetVideoDetails movie, ImageView imageView) {
         tv_title.setText(movie.getVideo_name());
-        actionbar_title.setText(movie.getVideo_name());
+        actionbarTitle.setText(movie.getVideo_name());
         Glide.with(this).load(movie.getVideo_thumb()).into(MoviesThumbNail);
         Glide.with(this).load(movie.getVideo_thumb()).into(MoviesCoverImg);
         tv_descrition.setText(movie.getVideo_description());

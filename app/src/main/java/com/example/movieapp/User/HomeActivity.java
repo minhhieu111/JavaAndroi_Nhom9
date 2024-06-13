@@ -2,17 +2,23 @@ package com.example.movieapp.User;
 
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -48,10 +54,13 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
     private List<SliderSide> uploadsSlider;
     private TabLayout indicator, tabmoviesaction;
     private RecyclerView MoviesRv, moviesRvWeek, tab;
+    private ImageView btnSearch;
     ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
@@ -65,6 +74,16 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(R.layout.actionbar);
+
+            btnSearch = findViewById(R.id.btn_search);
+
+            btnSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         progressDialog = new ProgressDialog(this);
@@ -226,8 +245,7 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
         in.putExtra("movieDetail",movie.getVideo_description());
         in.putExtra("movieUrl",movie.getVideo_url());
         in.putExtra("movieCategory",movie.getVideo_category());
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this,imageView, "sharedName");
-        startActivity(in,options.toBundle());
+        startActivity(in);
     }
 
     @Override
