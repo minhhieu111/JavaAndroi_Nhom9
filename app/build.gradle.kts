@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.play.services.cast.framework)
     implementation(libs.android.query)
     implementation(libs.glide)
+    implementation(libs.firebase.auth)
     annotationProcessor(libs.glide.compiler)
 
 

@@ -3,22 +3,9 @@
   <component name="deploymentTargetDropDown">
     <value>
       <entry key="HomeActivity">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="emulator-5554" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-05-24T13:24:23.659351600Z" />
-        </State>
+        <State />
       </entry>
-      <entry key="UploadThumbnailActivity">
+      <entry key="LoginActivity">
         <State />
       </entry>
       <entry key="UploadVideoActivity">
