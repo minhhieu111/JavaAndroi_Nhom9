@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,12 +21,14 @@ import com.example.movieapp.Models.GetVideoDetails;
 import com.example.movieapp.Models.MovieItemClickListenerNew;
 import com.example.movieapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MovieShowAdapter extends RecyclerView.Adapter<MovieShowAdapter.MyViewHolder> {
+public class MovieShowAdapter extends RecyclerView.Adapter<MovieShowAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private List<GetVideoDetails> uploads;
+    private List<GetVideoDetails> uploadsOld;
     MovieItemClickListenerNew movieItemClickListenerNew;
 
 
@@ -32,6 +36,7 @@ public class MovieShowAdapter extends RecyclerView.Adapter<MovieShowAdapter.MyVi
         this.mContext = mContext;
         this.uploads = uploads;
         this.movieItemClickListenerNew = movieItemClickListenerNew;
+        this.uploadsOld = uploads;
     }
 
     @NonNull
@@ -72,5 +77,36 @@ public class MovieShowAdapter extends RecyclerView.Adapter<MovieShowAdapter.MyVi
                 }
             });
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    uploads = uploadsOld;
+
+                }else {
+                    List<GetVideoDetails> filteredList = new ArrayList<>();
+                    for (GetVideoDetails row : uploadsOld) {
+                        if (row.getVideo_name().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    uploads = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = uploads;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                uploads = (List<GetVideoDetails>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
