@@ -1,24 +1,20 @@
 package com.example.movieapp.User;
 
-import android.app.ActivityOptions;
+
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -49,13 +45,13 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
 
     MovieShowAdapter movieShowAdapter;
     DatabaseReference mDatabasereference;
-    private List<GetVideoDetails> uploads, uploadslistLatests, uploadsListPopular;
+    private List<GetVideoDetails> movies, uploadslistLatests, uploadsListPopular;
     private List<GetVideoDetails> actionsmovies, sportsmovies, comedymovies, romanticmovies, adventuremovies;
     private ViewPager sliderPager;
     private List<SliderSide> uploadsSlider;
     private TabLayout indicator, tabmoviesaction;
     private RecyclerView MoviesRv, moviesRvWeek, tab;
-    private ImageView btnSearch;
+    private ImageView btnSearch, btnInfo;
     ProgressDialog progressDialog;
 
 
@@ -77,25 +73,32 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
             actionBar.setCustomView(R.layout.actionbar);
 
             btnSearch = findViewById(R.id.btn_search);
-
+            btnInfo = findViewById(R.id.btn_info);
             btnSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+                    intent.putExtra("allMovies", new ArrayList<>(movies));
                     startActivity(intent);
+                }
+            });
+
+            btnInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(HomeActivity.this, UserProfileActivity.class));
                 }
             });
         }
 
         progressDialog = new ProgressDialog(this);
-
         inViews();
         addAllMovies();
     }
 
     private void addAllMovies(){
 
-        uploads = new ArrayList<>();
+        movies = new ArrayList<>();
         uploadslistLatests = new ArrayList<>();
         uploadsListPopular = new ArrayList<>();
         actionsmovies = new ArrayList<>();
@@ -141,9 +144,9 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
                         uploadsSlider.add(slide);
                     }
 
-                    uploads.add(upload);
+                    movies.add(upload);
                 }
-                inniSlider();
+                iniSlider();
                 iniPopularMovies();
                 iniWeekMovies();
                 moviesViewTab();
@@ -157,7 +160,7 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
         });
     }
 
-    private void inniSlider() {
+    private void iniSlider() {
         SliderPagerAdapterNew adapterNew = new SliderPagerAdapterNew(this, uploadsSlider,this);
         sliderPager.setAdapter(adapterNew);
         adapterNew.notifyDataSetChanged();
@@ -234,7 +237,6 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
         moviesRvWeek = findViewById(R.id.rv_movies_week);
         MoviesRv = findViewById(R.id.Rv_movies);
         tab = findViewById(R.id.tabrecycler);
-
     }
 
     @Override
@@ -251,17 +253,15 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
 
     @Override
     public void onMovieClick(SliderSide movie, ImageView imageView) {
-        /*Intent in = new Intent(this, MovieDetailsActivity.class);
+        Intent in = new Intent(this, MovieDetailsActivity.class);
         in.putExtra("title",movie.getVideo_name());
         in.putExtra("imgURL",movie.getVideo_thumb());
         in.putExtra("imgCover",movie.getVideo_thumb());
         in.putExtra("movieDetail",movie.getVideo_description());
         in.putExtra("movieUrl",movie.getVideo_url());
         in.putExtra("movieCategory",movie.getVideo_category());
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this,imageView, "sharedName");
-        startActivity(in,options.toBundle());*/
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        startActivity(in);
+
     }
 
     public class SliderTime extends TimerTask {

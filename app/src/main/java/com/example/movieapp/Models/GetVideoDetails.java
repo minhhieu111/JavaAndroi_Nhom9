@@ -1,6 +1,8 @@
 package com.example.movieapp.Models;
 
-public class GetVideoDetails {
+import java.io.Serializable;
+
+public class GetVideoDetails implements Serializable {
     public String video_slide, video_type, video_thumb ,video_url ,video_name ,video_description ,video_category;
 
 

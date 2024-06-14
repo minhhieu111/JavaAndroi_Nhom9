@@ -43,7 +43,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
     RecyclerView recyclerViewSimilarMovies;
     MovieShowAdapter movieShowAdapter;
     DatabaseReference mDatabasereferance;
-    List<GetVideoDetails> uploads, actionsMovies, sportMovies, comedyMovies, romanticMovies, adventureMovies;
+    List<GetVideoDetails> movies, actionsMovies, sportMovies, comedyMovies, romanticMovies, adventureMovies;
     String current_video_url, current_video_category;
     ProgressDialog progressDialog;
 
@@ -57,6 +57,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -69,6 +72,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MovieDetailsActivity.this, SearchActivity.class);
+                    intent.putExtra("allMovies", new ArrayList<>(movies));
                     startActivity(intent);
                 }
             });
@@ -81,11 +85,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         });
 
         progressDialog = new ProgressDialog(this);
-
         inView();
         similarMoviesRecycler();
-
-
 
         play_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +122,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
     }
 
     private void similarMoviesRecycler() {
-        uploads = new ArrayList<>();
+        movies = new ArrayList<>();
         sportMovies = new ArrayList<>();
         comedyMovies = new ArrayList<>();
         romanticMovies = new ArrayList<>();
@@ -151,6 +152,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
                     if (upload.getVideo_category().equals("Romantic")) {
                         romanticMovies.add(upload);
                     }
+                    movies.add(upload);
                 }
                 similarMovies();
                 progressDialog.dismiss();
