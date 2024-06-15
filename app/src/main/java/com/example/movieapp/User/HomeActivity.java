@@ -27,6 +27,7 @@ import com.example.movieapp.Models.MovieItemClickListenerNew;
 import com.example.movieapp.Models.SliderSide;
 import com.example.movieapp.R;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -234,7 +235,7 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
 
     @Override
     public void onMovieClick(SliderSide movie, ImageView imageView) {
-        Intent in = new Intent(this, MovieDetailsActivity.class);
+        /*Intent in = new Intent(this, MovieDetailsActivity.class);
         in.putExtra("title",movie.getVideo_name());
         in.putExtra("imgURL",movie.getVideo_thumb());
         in.putExtra("imgCover",movie.getVideo_thumb());
@@ -242,7 +243,9 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
         in.putExtra("movieUrl",movie.getVideo_url());
         in.putExtra("movieCategory",movie.getVideo_category());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this,imageView, "sharedName");
-        startActivity(in,options.toBundle());
+        startActivity(in,options.toBundle());*/
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
     }
 
     public class SliderTime extends TimerTask {

@@ -19,6 +19,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".User.ForgotPasswordActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".User.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -51,6 +55,7 @@
         <activity
             android:name=".Admin.UploadVideoActivity"
             android:exported="true">
+
         </activity>
     </application>
 

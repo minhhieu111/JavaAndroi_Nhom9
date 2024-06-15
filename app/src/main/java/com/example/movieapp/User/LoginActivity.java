@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText loginEmail, loginPassword;
     private Button loginButton;
-    private TextView signupRedirectText;
+    private TextView signupRedirectText, forgotPassword;
     private static final String[] ADMIN_EMAILS = {"admin1@gmail.com", "admin2@gmail.com"};
 
     @Override
@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         loginPassword = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
         signupRedirectText = findViewById(R.id.signupRedirectText);
+        forgotPassword = findViewById(R.id.forgotPassword);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +105,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
     }
 
     private boolean isAdmin(String email) {
@@ -113,6 +121,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(auth.getCurrentUser() != null){
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        }
     }
 
 }
