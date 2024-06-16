@@ -21,16 +21,15 @@
                 android:layout_height="150dp"
                 android:layout_centerInParent="true"
                 app:cardCornerRadius="99dp">
-                <ImageView
-                    android:id="@+id/img_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:background="#9C9898"
-                    android:src="@drawable/icon_user"/>
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_user"/>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
-
+        
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
