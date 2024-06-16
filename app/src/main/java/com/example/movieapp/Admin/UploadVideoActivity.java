@@ -104,7 +104,7 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
         if ((requestCode == 101)&& (resultCode == RESULT_OK)&& (data.getData()!=null)){
 
             videoUri = data.getData();
-            Toast.makeText(this,   referenceVidoes+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,referenceVidoes+"", Toast.LENGTH_SHORT).show();
             String path = null;
             Cursor cursor;
             int coloum_index_data;
@@ -120,8 +120,6 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
 
             }
             text_video_selected.setText(videotitle);
-
-
         }
     }
     public void uploadFileToFirebase(View v){
@@ -151,7 +149,6 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
                         @Override
                         public void onSuccess(Uri uri) {
                             String video_url = uri.toString();
-
                             VideoUploadDetails videoUploadDetails = new VideoUploadDetails("", "", "", video_url, videotitle,video_description.getText().toString(), videoCategory);
                             String uploadsid = referenceVidoes.push().getKey();
                             referenceVidoes.child(uploadsid).setValue(videoUploadDetails);

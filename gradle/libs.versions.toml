@@ -3,14 +3,15 @@ agp = "8.3.2"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
-googleServicesVersion = "4.4.1"
+googleServicesVersion = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseStorageVersion = "21.0.0"
 glide = "4.14.2"
+firebaseAuth = "23.0.0"
 
 
 [libraries]
@@ -35,9 +36,11 @@ mediarouter-v7 = { group = "androidx.mediarouter", name = "mediarouter", version
 exoplayer = { group = "com.google.android.exoplayer", name = "exoplayer", version= "2.19.1" }
 play-services-cast-framework = { group = "com.google.android.gms", name = "play-services-cast-framework", version= "21.4.0" }
 android-query = { group = "com.googlecode.android-query", name = "android-query", version= "0.25.9" }
+cardview = { group = "androidx.cardview" , name =  "cardview", version = "1.0.0"}
 # glide library
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref= "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref= "glide" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 
 

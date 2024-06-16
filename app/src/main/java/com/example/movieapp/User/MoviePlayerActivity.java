@@ -1,5 +1,6 @@
 package com.example.movieapp.User;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -24,9 +25,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
@@ -39,6 +38,7 @@ public class MoviePlayerActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +78,7 @@ public class MoviePlayerActivity extends AppCompatActivity {
     }
 
     private void setFullScreen(){
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//sử dụng FLAG_FULLSCREEN ở cả hai tham số của setFlags là một cách để đảm bảo rằng bạn chỉ thay đổi trạng thái của cờ FLAG_FULLSCREEN, và không ảnh hưởng đến các cờ khác của cửa sổ.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
@@ -87,7 +86,7 @@ public class MoviePlayerActivity extends AppCompatActivity {
         try {
             String playerInfo = Util.getUserAgent(this, "MovieAppClient");
             DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, playerInfo);
-            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUri));
+            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUri));//ProgressiveMediaSource.Factory để tạo ra một ProgressiveMediaSource từ MediaItem. ProgressiveMediaSource sẽ xử lý việc tải và phân tích dữ liệu từ MediaItem
             playerView.setPlayer(exoPlayer);
             exoPlayer.prepare(mediaSource);
             exoPlayer.setPlayWhenReady(true);

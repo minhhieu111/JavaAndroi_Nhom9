@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,12 +16,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieApp"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+
+            android:name=".User.ProfileImageActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".User.UserProfileActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".User.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".User.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User.SearchActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".User.MoviePlayerActivity"
             android:exported="false" />
-        <service android:name=".Service.FloatingWidgetService"/>
+
+        <service android:name=".Service.FloatingWidgetService" />
+
         <activity
             android:name=".User.MovieDetailsActivity"
             android:exported="false"
@@ -30,18 +60,17 @@
             android:name=".User.HomeActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
+
+
+
         <activity
             android:name=".Admin.UploadThumbnailActivity"
             android:exported="false" />
+
         <activity
             android:name=".Admin.UploadVideoActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
