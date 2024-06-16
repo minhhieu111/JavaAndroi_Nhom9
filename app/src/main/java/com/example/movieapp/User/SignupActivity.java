@@ -18,17 +18,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.movieapp.Models.HelperClass;
+import com.example.movieapp.Models.User;
 import com.example.movieapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
-import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -128,9 +126,9 @@ public class SignupActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(SignupActivity.this, "SignUp Successful", Toast.LENGTH_SHORT).show();
-                                HelperClass helperClass = new HelperClass(username, email, dob, finalGender,"");
+                                User user = new User(username, email, dob, finalGender,"");
                                 FirebaseDatabase.getInstance().getReference("users")
-                                        .child(auth.getCurrentUser().getUid()).setValue(helperClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        .child(auth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){

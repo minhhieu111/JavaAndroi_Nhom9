@@ -87,16 +87,39 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toBottomOf="@+id/textView_week"/>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabActionMovies"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/genres"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:tabMode="scrollable"
-            android:layout_marginTop="20dp"
+            android:textAllCaps="true"
             app:layout_constraintTop_toBottomOf="@+id/rv_movies_week"
-            android:background="@color/text_bg_blue"/>
+            android:text="Genres"
+            android:textColor="@color/white"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/border_tabActionMovies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genres">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabActionMovies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tabMode="scrollable"
+                android:background="@color/text_bg_blue"/>
+
+        </androidx.cardview.widget.CardView>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tabrecycler"
@@ -110,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/tabActionMovies"/>
+            app:layout_constraintTop_toBottomOf="@+id/border_tabActionMovies"/>
 
 
 

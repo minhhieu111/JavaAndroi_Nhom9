@@ -1,9 +1,9 @@
 package com.example.movieapp.Models;
 
-public class HelperClass {
+public class User {
     String username, email, dob ,gender, img;
 
-    public HelperClass(String username, String email, String dob, String gender, String img) {
+    public User(String username, String email, String dob, String gender, String img) {
         this.username = username;
         this.email = email;
         this.dob = dob;
@@ -11,7 +11,7 @@ public class HelperClass {
         this.img = img;
     }
 
-    public HelperClass() {
+    public User() {
     }
 
     public String getImg() {

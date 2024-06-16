@@ -2,7 +2,6 @@ package com.example.movieapp.User;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.movieapp.Models.HelperClass;
+import com.example.movieapp.Models.User;
 import com.example.movieapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,8 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class UserProfileActivity extends AppCompatActivity {
     private TextView fullnameTV, emailTV, dobTV, genderTV;
@@ -101,19 +98,19 @@ public class UserProfileActivity extends AppCompatActivity {
         referenceProfile.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                HelperClass helperClass = snapshot.getValue(HelperClass.class);
+                User user = snapshot.getValue(User.class);
 
-                if(helperClass != null){
-                    fullname = helperClass.getUsername();
-                    email = helperClass.getEmail();
-                    dob = helperClass.getDob();
-                    gender = helperClass.getGender();
+                if(user != null){
+                    fullname = user.getUsername();
+                    email = user.getEmail();
+                    dob = user.getDob();
+                    gender = user.getGender();
 
                     fullnameTV.setText(fullname);
                     emailTV.setText(email);
                     dobTV.setText(dob);
                     genderTV.setText(gender);
-                    Glide.with(UserProfileActivity.this).load(helperClass.getImg()).into(accountImage);
+                    Glide.with(UserProfileActivity.this).load(user.getImg()).into(accountImage);
                 }
                 progressDialog.dismiss();
 
@@ -121,7 +118,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(UserProfileActivity.this, ProfileImageActivity.class);
-                        intent.putExtra("imageUri", helperClass.getImg());
+                        intent.putExtra("imageUri", user.getImg());
                         startActivity(intent);
                     }
                 });
