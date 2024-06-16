@@ -11,6 +11,9 @@ public class HelperClass {
         this.img = img;
     }
 
+    public HelperClass() {
+    }
+
     public String getImg() {
         return img;
     }

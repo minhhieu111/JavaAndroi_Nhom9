@@ -74,6 +74,7 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
 
             btnSearch = findViewById(R.id.btn_search);
             btnInfo = findViewById(R.id.btn_info);
+
             btnSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,6 +90,7 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
                     startActivity(new Intent(HomeActivity.this, UserProfileActivity.class));
                 }
             });
+
         }
 
         progressDialog = new ProgressDialog(this);
@@ -261,7 +263,6 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
         in.putExtra("movieUrl",movie.getVideo_url());
         in.putExtra("movieCategory",movie.getVideo_category());
         startActivity(in);
-
     }
 
     public class SliderTime extends TimerTask {
