@@ -82,7 +82,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
+                    Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 }
             });
         }
@@ -110,7 +113,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     emailTV.setText(email);
                     dobTV.setText(dob);
                     genderTV.setText(gender);
-                    Glide.with(UserProfileActivity.this).load(user.getImg()).into(accountImage);
+                    if (!(user.getImg()).equals("")){
+                        Glide.with(UserProfileActivity.this).load(user.getImg()).into(accountImage);
+                    }
+
                 }
                 progressDialog.dismiss();
 
@@ -132,8 +138,4 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 }
