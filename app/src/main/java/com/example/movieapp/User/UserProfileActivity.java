@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String fullname, email, dob, gender;
     ImageView accountImage, backBtn, logoutBtn;
+    Button updateBtn;
     AlertDialog.Builder builder;
 
     @Override
@@ -63,6 +65,14 @@ public class UserProfileActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "User detail in not available", Toast.LENGTH_SHORT).show();
         }
+
+        updateBtn = findViewById(R.id.update_profile);
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfileActivity.this, UpdateProfileActivity.class));
+            }
+        });
     }
 
     private void iniActionBar() {

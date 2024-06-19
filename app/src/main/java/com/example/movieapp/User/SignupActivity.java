@@ -107,6 +107,10 @@ public class SignupActivity extends AppCompatActivity {
                     signupEmail.setError("Email cannot be empty");
                 }
 
+                if(dob.isEmpty()){
+                    signupDob.setError("Date of birth cannot be empty");
+                }
+
                 if(gender.equals("")){
                     Toast.makeText(SignupActivity.this, "Gender cannot be empty", Toast.LENGTH_SHORT).show();
                 }
