@@ -42,9 +42,9 @@ import java.net.URI;
 public class ProfileImageActivity extends AppCompatActivity {
     private ImageView backButton, logoutBtn, userImage;
     private TextView title;
-    private Button chooseImageBtn, uploadImageBtn;
+    private Button chooseImageBtn, uploadImageBtn, deleteImageBtn;
     private String imageUrl, imageUriString;
-    StorageReference mStoragerefUserImage;
+    StorageReference mStoragerefUserImage, imageRef;
     DatabaseReference updateimageref;
     StorageTask mStorageTask;
     FirebaseUser user;
@@ -67,13 +67,43 @@ public class ProfileImageActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         updateimageref = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
         userImage = findViewById(R.id.user_image);
+        deleteImageBtn = findViewById(R.id.image_delete);
 
         imageUriString = getIntent().getExtras().getString("imageUri");
         if (!imageUriString.equals("")){
             imageUri = Uri.parse(imageUriString);
             Glide.with(this).load(imageUri).into(userImage);
-
+            deleteImageBtn.setVisibility(View.VISIBLE);
+        }else{
+            deleteImageBtn.setVisibility(View.GONE);
         }
+
+        deleteImage();
+    }
+
+    private void deleteImage() {
+
+        deleteImageBtn.setOnClickListener(v -> {
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("wait deleting image ...");
+            progressDialog.show();
+            imageRef  = mStoragerefUserImage.child(user.getUid());
+            updateimageref.child("img").setValue("").addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    imageRef.delete().addOnSuccessListener(aVoid ->{
+                        progressDialog.dismiss();
+                        userImage.setImageResource(R.drawable.icon_user);
+                        Toast.makeText(this, "Image Deleted", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "Image Deleted Failed", Toast.LENGTH_SHORT).show();
+                    });
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Image Deleted Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 
     private void iniActionBar() {
