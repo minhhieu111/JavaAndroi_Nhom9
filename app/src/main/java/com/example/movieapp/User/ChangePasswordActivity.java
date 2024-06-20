@@ -3,12 +3,15 @@ package com.example.movieapp.User;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.InputType;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -28,12 +31,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    private ImageView backButton, logoutBtn, userImage;
+    private ImageView backButton, logoutBtn, showCurrentPass, showNewPass, showConfirmPass;
     private TextView title;
     private String currentPassword, password, confirmPass;
     private EditText oldPassword, newPassword, confirmPassword;
     private Button submitBtn;
     ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +51,43 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
         iniActionBar();
         iniView();
-
-
         submitBtn.setOnClickListener(v -> {changePassword();});
+        showHidePass();
+
+    }
+
+    private void showHidePass() {
+        showCurrentPass = findViewById(R.id.show_hide_current_password);
+        showNewPass = findViewById(R.id.show_hide_new_password);
+        showConfirmPass = findViewById(R.id.show_hide_confirm_password);
+
+        showCurrentPass.setOnClickListener(v -> {
+            if(oldPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                oldPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                showCurrentPass.setImageResource(R.drawable.icon_hide);
+            }else{
+                oldPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                showCurrentPass.setImageResource(R.drawable.icon_show);
+            }
+        });
+        showNewPass.setOnClickListener(v -> {
+            if(newPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                newPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                showNewPass.setImageResource(R.drawable.icon_hide);
+            }else{
+                newPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                showNewPass.setImageResource(R.drawable.icon_show);
+            }
+        });
+        showConfirmPass.setOnClickListener(v -> {
+            if(confirmPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                showConfirmPass.setImageResource(R.drawable.icon_hide);
+            }else{
+                confirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                showConfirmPass.setImageResource(R.drawable.icon_show);
+            }
+        });
 
     }
 
