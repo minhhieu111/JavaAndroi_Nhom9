@@ -1,5 +1,6 @@
 package com.example.movieapp.User;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -49,6 +50,7 @@ public class ProfileImageActivity extends AppCompatActivity {
     StorageTask mStorageTask;
     FirebaseUser user;
     Uri imageUri;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,31 +80,37 @@ public class ProfileImageActivity extends AppCompatActivity {
             deleteImageBtn.setVisibility(View.GONE);
         }
 
-        deleteImage();
+        deleteImageBtn.setOnClickListener(v -> {
+            builder = new AlertDialog.Builder(this);
+            builder.setTitle("Delete Image")
+                    .setMessage("Are you sure, you want to delete this image?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", (dialog, which) -> {deleteImage();})
+                    .setNegativeButton("No", (dialog, which) -> {dialog.cancel();})
+                    .show();
+        });
     }
 
     private void deleteImage() {
-
-        deleteImageBtn.setOnClickListener(v -> {
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("wait deleting image ...");
-            progressDialog.show();
-            imageRef  = mStoragerefUserImage.child(user.getUid());
-            updateimageref.child("img").setValue("").addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    imageRef.delete().addOnSuccessListener(aVoid ->{
-                        progressDialog.dismiss();
-                        userImage.setImageResource(R.drawable.icon_user);
-                        Toast.makeText(this, "Image Deleted", Toast.LENGTH_SHORT).show();
-                    }).addOnFailureListener(e -> {
-                        progressDialog.dismiss();
-                        Toast.makeText(this, "Image Deleted Failed", Toast.LENGTH_SHORT).show();
-                    });
-                }else{
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("wait deleting image ...");
+        progressDialog.show();
+        imageRef  = mStoragerefUserImage.child(user.getUid());
+        updateimageref.child("img").setValue("").addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                imageRef.delete().addOnSuccessListener(aVoid ->{
+                    progressDialog.dismiss();
+                    userImage.setImageResource(R.drawable.icon_user);
+                    deleteImageBtn.setVisibility(View.GONE);
+                    Toast.makeText(this, "Image Deleted", Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(e -> {
                     progressDialog.dismiss();
                     Toast.makeText(this, "Image Deleted Failed", Toast.LENGTH_SHORT).show();
-                }
-            });
+                });
+            }else{
+                progressDialog.dismiss();
+                Toast.makeText(this, "Image Deleted Failed", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

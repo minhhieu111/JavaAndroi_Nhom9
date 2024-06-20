@@ -19,14 +19,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-
-            android:name=".User.ProfileImageActivity"
+            android:name=".User.ChangePasswordActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".User.UpdateProfileActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".User.ProfileImageActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".User.UserProfileActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".User.ForgotPasswordActivity"
             android:exported="false" />
@@ -58,19 +65,14 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".User.HomeActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/AppTheme" />
-
-
-
         <activity
             android:name=".Admin.UploadThumbnailActivity"
             android:exported="false" />
-
         <activity
             android:name=".Admin.UploadVideoActivity"
-            android:exported="true" />
-
+            android:exported="false" />
     </application>
 
 </manifest>
