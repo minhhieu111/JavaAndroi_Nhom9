@@ -158,8 +158,16 @@
             android:id="@+id/update_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_profile"
             android:text="Update profile"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:backgroundTint="@color/black"/>
+
+        <Button
+            android:id="@+id/change_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change password"
             android:layout_marginRight="70dp"
             android:layout_marginLeft="70dp"
             android:backgroundTint="@color/black"/>

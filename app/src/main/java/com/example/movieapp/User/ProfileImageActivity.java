@@ -101,6 +101,7 @@ public class ProfileImageActivity extends AppCompatActivity {
                 imageRef.delete().addOnSuccessListener(aVoid ->{
                     progressDialog.dismiss();
                     userImage.setImageResource(R.drawable.icon_user);
+                    deleteImageBtn.setVisibility(View.GONE);
                     Toast.makeText(this, "Image Deleted", Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
                     progressDialog.dismiss();

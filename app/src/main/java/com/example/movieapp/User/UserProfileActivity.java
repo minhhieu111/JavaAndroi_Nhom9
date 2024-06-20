@@ -35,7 +35,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String fullname, email, dob, gender;
     ImageView accountImage, backBtn, logoutBtn;
-    Button updateBtn;
+    Button updateBtn, changePasswordBtn;
     AlertDialog.Builder builder;
 
     @Override
@@ -73,6 +73,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(UserProfileActivity.this, UpdateProfileActivity.class));
             }
         });
+        changePasswordBtn = findViewById(R.id.change_password);
+        changePasswordBtn.setOnClickListener(v -> {startActivity(new Intent(UserProfileActivity.this, ChangePasswordActivity.class));});
     }
 
     private void iniActionBar() {
