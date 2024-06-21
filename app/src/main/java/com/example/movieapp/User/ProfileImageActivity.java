@@ -69,10 +69,9 @@ public class ProfileImageActivity extends AppCompatActivity {
         userImage = findViewById(R.id.user_image);
 
         imageUriString = getIntent().getExtras().getString("imageUri");
-        if (imageUriString != null){
+        if (!imageUriString.equals("")){
             imageUri = Uri.parse(imageUriString);
             Glide.with(this).load(imageUri).into(userImage);
-
         }
     }
 
