@@ -2,10 +2,13 @@ package com.example.movieapp.User;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText loginEmail, loginPassword;
     private Button loginButton;
     private TextView signupRedirectText, forgotPassword;
+    private ImageView showPassword;
     private static final String[] ADMIN_EMAILS = {"admin1@gmail.com", "admin2@gmail.com"};
 
     @Override
@@ -54,6 +58,20 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         signupRedirectText = findViewById(R.id.signupRedirectText);
         forgotPassword = findViewById(R.id.forgotPassword);
+        showPassword = findViewById(R.id.show_hide_login_password);
+
+        showPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(loginPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

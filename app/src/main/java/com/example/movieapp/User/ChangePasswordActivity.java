@@ -64,28 +64,28 @@ public class ChangePasswordActivity extends AppCompatActivity {
         showCurrentPass.setOnClickListener(v -> {
             if(oldPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
                 oldPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                showCurrentPass.setImageResource(R.drawable.icon_hide);
+                showCurrentPass.setImageResource(R.drawable.icon_show);
             }else{
                 oldPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                showCurrentPass.setImageResource(R.drawable.icon_show);
+                showCurrentPass.setImageResource(R.drawable.icon_hide);
             }
         });
         showNewPass.setOnClickListener(v -> {
             if(newPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
                 newPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                showNewPass.setImageResource(R.drawable.icon_hide);
+                showNewPass.setImageResource(R.drawable.icon_show);
             }else{
                 newPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                showNewPass.setImageResource(R.drawable.icon_show);
+                showNewPass.setImageResource(R.drawable.icon_hide);
             }
         });
         showConfirmPass.setOnClickListener(v -> {
             if(confirmPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
                 confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                showConfirmPass.setImageResource(R.drawable.icon_hide);
+                showConfirmPass.setImageResource(R.drawable.icon_show);
             }else{
                 confirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                showConfirmPass.setImageResource(R.drawable.icon_show);
+                showConfirmPass.setImageResource(R.drawable.icon_hide);
             }
         });
 

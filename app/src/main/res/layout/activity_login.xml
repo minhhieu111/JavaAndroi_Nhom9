@@ -49,18 +49,30 @@
                 android:textColor="@color/black"/>
 
 
-            <EditText
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/login_password"
-                android:background="@drawable/input_border"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:textColor="@color/black"/>
+                android:layout_marginTop="20dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/login_password"
+                    android:background="@drawable/input_border"
+                    android:padding="8dp"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"/>
+                <ImageView
+                    android:id="@+id/show_hide_login_password"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_show"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="18dp"/>
+            </RelativeLayout>
+
 
             <Button
                 android:layout_width="match_parent"

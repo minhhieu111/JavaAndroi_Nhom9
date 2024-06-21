@@ -3,9 +3,12 @@ package com.example.movieapp.User;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button signupButton;
     private RadioGroup radioGroupGender;
     private RadioButton radioMale, radioFemale;
+    private ImageView showSignupPassword, showConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,34 @@ public class SignupActivity extends AppCompatActivity {
         signupConfirmPassword = findViewById(R.id.signup_confirmpassword);
         signupButton = findViewById(R.id.signup_button);
         loginRedirectText = findViewById(R.id.loginRedirectText);
+        showSignupPassword = findViewById(R.id.show_hide_signup_password);
+        showConfirmPassword = findViewById(R.id.show_hide_signup_confirmpass);
+
+        showSignupPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(signupPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showSignupPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showSignupPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
+
+        showConfirmPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(signupConfirmPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    signupConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showConfirmPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    signupConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showConfirmPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
 
         signupDob = findViewById(R.id.signup_dateofbirth);
         signupDob.setOnClickListener(new View.OnClickListener() {
