@@ -1,9 +1,12 @@
 package com.example.movieapp.User;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String fullname, email, dob, gender;
     ImageView accountImage, backBtn, logoutBtn;
+    Button updateBtn, changePasswordBtn;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,16 @@ public class UserProfileActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "User detail in not available", Toast.LENGTH_SHORT).show();
         }
+
+        updateBtn = findViewById(R.id.update_profile);
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfileActivity.this, UpdateProfileActivity.class));
+            }
+        });
+        changePasswordBtn = findViewById(R.id.change_password);
+        changePasswordBtn.setOnClickListener(v -> {startActivity(new Intent(UserProfileActivity.this, ChangePasswordActivity.class));});
     }
 
     private void iniActionBar() {
@@ -70,6 +85,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
             backBtn = findViewById(R.id.btn_back);
             logoutBtn = findViewById(R.id.btn_logout);
+            builder = new AlertDialog.Builder(this);
 
             backBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,8 +97,26 @@ public class UserProfileActivity extends AppCompatActivity {
             logoutBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
+                    builder.setTitle("Logout")
+                            .setMessage("Are you sure you want to log out?")
+                            .setCancelable(true)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
                 }
             });
         }
@@ -110,9 +144,11 @@ public class UserProfileActivity extends AppCompatActivity {
                     emailTV.setText(email);
                     dobTV.setText(dob);
                     genderTV.setText(gender);
+
                     if(!(user.getImg().equals(""))){
                         Glide.with(UserProfileActivity.this).load(user.getImg()).into(accountImage);
                     }
+
                 }
                 progressDialog.dismiss();
 
@@ -134,8 +170,4 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 }

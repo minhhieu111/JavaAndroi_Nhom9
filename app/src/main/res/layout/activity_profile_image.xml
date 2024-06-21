@@ -70,6 +70,17 @@
             android:backgroundTint="@color/black"
             android:onClick="uploadimagetofirebase"/>
 
+        <Button
+            android:id="@+id/image_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_upload"
+            android:layout_marginTop="20dp"
+            android:text="Delete Image"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:backgroundTint="#E40808"/>
+
 
     </RelativeLayout>
 
