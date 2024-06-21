@@ -61,6 +61,34 @@ public class SignupActivity extends AppCompatActivity {
         signupConfirmPassword = findViewById(R.id.signup_confirmpassword);
         signupButton = findViewById(R.id.signup_button);
         loginRedirectText = findViewById(R.id.loginRedirectText);
+        showSignupPassword = findViewById(R.id.show_hide_signup_password);
+        showConfirmPassword = findViewById(R.id.show_hide_signup_confirmpass);
+
+        showSignupPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(signupPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showSignupPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showSignupPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
+
+        showConfirmPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(signupConfirmPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    signupConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showConfirmPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    signupConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showConfirmPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
 
         signupDob = findViewById(R.id.signup_dateofbirth);
         showSignupPassword = findViewById(R.id.show_hide_signup_password);
