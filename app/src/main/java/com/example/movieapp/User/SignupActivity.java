@@ -91,6 +91,34 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         signupDob = findViewById(R.id.signup_dateofbirth);
+        showSignupPassword = findViewById(R.id.show_hide_signup_password);
+        showConfirmPassword = findViewById(R.id.show_hide_signup_confirmpass);
+
+        showSignupPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(signupPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showSignupPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showSignupPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
+
+        showConfirmPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(signupConfirmPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    signupConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showConfirmPassword.setImageResource(R.drawable.icon_show);
+                }else{
+                    signupConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showConfirmPassword.setImageResource(R.drawable.icon_hide);
+                }
+            }
+        });
         signupDob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +173,11 @@ public class SignupActivity extends AppCompatActivity {
 
                 if(gender.equals("")){
                     Toast.makeText(SignupActivity.this, "Gender cannot be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(dob.isEmpty()){
+                    signupDob.setError("Date of birth cannot be empty");
                 }
 
                 if(password.isEmpty()){

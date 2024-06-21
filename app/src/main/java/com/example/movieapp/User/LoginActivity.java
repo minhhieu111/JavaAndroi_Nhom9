@@ -1,6 +1,9 @@
 package com.example.movieapp.User;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -26,12 +29,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -85,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-                                        FirebaseUser user = auth.getCurrentUser();
+                                        FirebaseUser user = auth.getCurrentUser(); //Lấy người dùng hiện tại
                                         if (isAdmin(email)) {
                                             // Người dùng là admin
                                             Toast.makeText(LoginActivity.this, "Login Admin Successful", Toast.LENGTH_SHORT).show();
@@ -93,25 +90,40 @@ public class LoginActivity extends AppCompatActivity {
                                             finish();
                                         } else {
                                             // Người dùng là người dùng thông thường
-                                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                            finish();
+                                            if(user.isEmailVerified()){
+                                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                                finish();
+                                            }else{
+                                                user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Toast.makeText(LoginActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(LoginActivity.this, "Failed to send verify", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+
                                         }
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(LoginActivity.this, "Login Failed Beacause " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                    } else {
+                    } else{
                         loginPassword.setError("Password cannot be empty");
                     }
-                } else if (email.isEmpty()) {
+                } else if(email.isEmpty()) {
                     loginEmail.setError("Email cannot be empty");
-                } else {
-                    loginEmail.setError("Please enter valid email");
+                }else{
+                    loginEmail.setError("Please enter a valid email");
                 }
             }
         });
@@ -142,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() { //được gọi khi Activity chuẩn bị hiển thị lên màn hình
         super.onStart();
         if(auth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));

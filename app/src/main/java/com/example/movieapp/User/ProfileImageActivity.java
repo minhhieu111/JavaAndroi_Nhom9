@@ -78,6 +78,7 @@ public class ProfileImageActivity extends AppCompatActivity {
             deleteImageBtn.setVisibility(View.VISIBLE);
         }else{
             deleteImageBtn.setVisibility(View.GONE);
+
         }
 
         deleteImageBtn.setOnClickListener(v -> {

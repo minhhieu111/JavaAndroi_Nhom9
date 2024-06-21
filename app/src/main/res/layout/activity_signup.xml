@@ -148,7 +148,6 @@
                     android:layout_marginRight="18dp"/>
             </RelativeLayout>
 
-
             <Button
                 android:id="@+id/signup_button"
                 android:layout_width="match_parent"
@@ -167,8 +166,6 @@
                 android:padding="8dp"
                 android:layout_marginTop="5dp"
                 android:textSize="18sp"/>
-
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
