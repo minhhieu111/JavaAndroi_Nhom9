@@ -72,7 +72,9 @@
             android:exported="false" />
         <activity
             android:name=".Admin.UploadVideoActivity"
-            android:exported="false" />
+
+            android:exported="true" />
+
     </application>
 
 </manifest>

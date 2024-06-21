@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -46,8 +45,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = edt_email.getText().toString().trim();
                 if(!email.isEmpty()) {
-                    ResetPassword();
-                }else{
+                        ResetPassword();
+                } else {
                     edt_email.setError("Email cannot be empty");
                 }
             }
@@ -74,7 +73,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ForgotPasswordActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgotPasswordActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

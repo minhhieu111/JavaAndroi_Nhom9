@@ -144,7 +144,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     emailTV.setText(email);
                     dobTV.setText(dob);
                     genderTV.setText(gender);
-                    if (!(user.getImg()).equals("")){
+
+                    if(!(user.getImg().equals(""))){
                         Glide.with(UserProfileActivity.this).load(user.getImg()).into(accountImage);
                     }
 
