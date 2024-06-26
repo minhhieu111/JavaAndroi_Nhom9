@@ -170,6 +170,9 @@ public class UploadThumbnailActivity extends AppCompatActivity {
                             updatedataref.child("video_thumb").setValue(thumbnail_url);
                             progressDialog.dismiss();
                             Toast.makeText(UploadThumbnailActivity.this, "file uploaded", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(UploadThumbnailActivity.this, AdminHomeActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     });
                 }

@@ -22,6 +22,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.movieapp.Admin.AdminHomeActivity;
 import com.example.movieapp.Admin.UploadVideoActivity;
 import com.example.movieapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                                         FirebaseUser user = auth.getCurrentUser(); //Lấy người dùng hiện tại
                                         if (isAdmin(email)) {
                                             Toast.makeText(LoginActivity.this, "Login Admin Successful", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, UploadVideoActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
                                             finish();
                                         } else {
                                             if(user.isEmailVerified()){
@@ -158,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(auth.getCurrentUser() != null) {
             if (isAdmin(user.getEmail())) {
-                startActivity(new Intent(LoginActivity.this, UploadVideoActivity.class));
+                startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
             } else {
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
