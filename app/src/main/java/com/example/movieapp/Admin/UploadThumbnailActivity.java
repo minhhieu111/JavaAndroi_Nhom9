@@ -24,6 +24,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.movieapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -116,29 +117,22 @@ public class UploadThumbnailActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data); //Gọi phương thức onActivityResult() của lớp cha
+        super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == 102) && (resultCode == RESULT_OK) && (data.getData()!=null)){
             videothumburi = data.getData();
-
-            try{
                 String thumbname = getFileName(videothumburi);
                 textSelected.setText(thumbname);
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),videothumburi); //lấy một Bitmap từ URI videothumburi, sử dụng ContentResolver để truy cập dữ liệu trên thiết bị
-                thumbnail_image.setImageBitmap(bitmap);
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
+                Glide.with(this).load(videothumburi).into(thumbnail_image);
         }
     }
     private String getFileName (Uri uri){
         String result = null;
         if(uri.getScheme().equals("content")){
-            Cursor cursor = getContentResolver().query(uri,null,null,null,null); //một phương thức của ContentResolver được sử dụng để truy vấn thông tin về một tệp tin dựa trên Uri
+            Cursor cursor = getContentResolver().query(uri,null,null,null,null);
             try{
                 if(cursor != null && cursor.moveToFirst()){
                     int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME); //getColumnIndex() để lấy chỉ mục của cột "DISPLAY_NAME" trong kết quả truy vấn
-                    if (nameIndex != -1) { //cột "DISPLAY_NAME" tồn tại trong kết quả truy vấn
+                    if (nameIndex != -1) {
                         result = cursor.getString(nameIndex);
                     }
                 }
@@ -147,11 +141,11 @@ public class UploadThumbnailActivity extends AppCompatActivity {
             }
         }
         if (result == null){
-            result = uri.getPath(); //uri.getPath() sẽ trả về đường dẫn đầy đủ của tệp tin hoặc thư mục được đại diện bởi uri
-            int cut = result.lastIndexOf('/'); //tìm vị trí xuất hiện cuối cùng của dấu / trong result
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
             if(cut != -1){
-                result = result.substring(cut + 1); //ubstring() để lấy phần tên tệp tin (không bao gồm đường dẫn) từ result
-                //cut + 1 là vị trí bắt đầu của tên tệp tin, do dấu / đánh dấu sự kết thúc của đường dẫn
+                result = result.substring(cut + 1);
+
             }
         }
         return result;
@@ -164,7 +158,7 @@ public class UploadThumbnailActivity extends AppCompatActivity {
             progressDialog.show();
             String video_title = getIntent().getExtras().getString("thumbnailsName");
 
-            final StorageReference sRef = mStoragerefthumbnails.child(video_title+"."+getfileExtension(videothumburi));
+            final StorageReference sRef = mStoragerefthumbnails.child(video_title);
 
             sRef.putFile(videothumburi).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -204,10 +198,5 @@ public class UploadThumbnailActivity extends AppCompatActivity {
                 uploadFiles();
             }
         }
-    }
-    public String getfileExtension(Uri uri){
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri)); //lấy phần mở rộng tệp dựa trên kiểu MIME. Nếu kiểu MIME là image/jpeg, nó sẽ trả về jpg.
     }
 }

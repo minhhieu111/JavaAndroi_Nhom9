@@ -84,12 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onSuccess(AuthResult authResult) {
                                         FirebaseUser user = auth.getCurrentUser(); //Lấy người dùng hiện tại
                                         if (isAdmin(email)) {
-                                            // Người dùng là admin
                                             Toast.makeText(LoginActivity.this, "Login Admin Successful", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(LoginActivity.this, UploadVideoActivity.class));
                                             finish();
                                         } else {
-                                            // Người dùng là người dùng thông thường
                                             if(user.isEmailVerified()){
                                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
