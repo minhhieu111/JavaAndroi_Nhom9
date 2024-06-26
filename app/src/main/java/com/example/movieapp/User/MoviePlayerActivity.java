@@ -60,6 +60,8 @@ public class MoviePlayerActivity extends AppCompatActivity {
         if(intent != null){
             String uri_str = intent.getStringExtra("videoUri");
             videoUri = Uri.parse(uri_str);
+        }else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
         exo_floating_widget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +87,7 @@ public class MoviePlayerActivity extends AppCompatActivity {
     private void playVideo() {
         try {
             String playerInfo = Util.getUserAgent(this, "MovieAppClient");
-            DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, playerInfo);
+            DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, playerInfo);//DataSource chịu trách nhiệm cho việc đọc dữ liệu từ URI, URL, hoặc tệp.
             MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUri));//ProgressiveMediaSource.Factory để tạo ra một ProgressiveMediaSource từ MediaItem. ProgressiveMediaSource sẽ xử lý việc tải và phân tích dữ liệu từ MediaItem
             playerView.setPlayer(exoPlayer);
             exoPlayer.prepare(mediaSource);

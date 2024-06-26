@@ -36,10 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieItemClickListenerNew {
-    private ImageView MoviesThumbNail, MoviesCoverImg;
+    private ImageView MoviesThumbNail, MoviesCoverImg, btnBack, btnSearch, play;
     TextView tv_title, tv_descrition, actionbarTitle;
-    ImageView btnBack, btnSearch;
-    FloatingActionButton play_fab;
     RecyclerView recyclerViewSimilarMovies;
     MovieShowAdapter movieShowAdapter;
     DatabaseReference mDatabasereferance;
@@ -57,9 +55,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        
+        iniActionBar();
+        progressDialog = new ProgressDialog(this);
+        inView();
+        similarMoviesRecycler();
 
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MovieDetailsActivity.this, MoviePlayerActivity.class);
+                intent.putExtra("videoUri",current_video_url);
+                startActivity(intent);
+            }
+        });
+    }
 
-
+    private void iniActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -83,23 +95,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
                 finish();
             }
         });
-
-        progressDialog = new ProgressDialog(this);
-        inView();
-        similarMoviesRecycler();
-
-        play_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MovieDetailsActivity.this, MoviePlayerActivity.class);
-                intent.putExtra("videoUri",current_video_url);
-                startActivity(intent);
-            }
-        });
     }
 
     private void inView() {
-        play_fab = findViewById(R.id.play_fab);
+        play = findViewById(R.id.play_fab);
         tv_title = findViewById(R.id.detail_movies_title);
         tv_descrition = findViewById(R.id.detail_movies_desc);
         MoviesThumbNail = findViewById(R.id.detail_movies_img);
@@ -107,18 +106,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         recyclerViewSimilarMovies = findViewById(R.id.recycler_similar_movies);
 
         String movieTitle = getIntent().getExtras().getString("title");
-        String imgrecoresId = getIntent().getExtras().getString("imgURL");
+        String imgURL = getIntent().getExtras().getString("imgURL");
         String imageCover = getIntent().getExtras().getString("imgCover");
         String moviesDetailstext = getIntent().getExtras().getString("movieDetail");
         String moviesUrl = getIntent().getExtras().getString("movieUrl");
         String moviesCategory = getIntent().getExtras().getString("movieCategory");
         current_video_url = moviesUrl;
         current_video_category = moviesCategory;
-        Glide.with(this).load(imgrecoresId).into(MoviesThumbNail);
+        Glide.with(this).load(imgURL).into(MoviesThumbNail);
         Glide.with(this).load(imageCover).into(MoviesCoverImg);
         tv_title.setText(movieTitle);
         tv_descrition.setText(moviesDetailstext);
-        actionbarTitle.setText(movieTitle);;
+        actionbarTitle.setText(movieTitle);
     }
 
     private void similarMoviesRecycler() {
@@ -206,8 +205,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieItem
         tv_descrition.setText(movie.getVideo_description());
         current_video_url = movie.getVideo_url();
         current_video_category = movie.getVideo_category();
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MovieDetailsActivity.this, imageView, "sharedName");
-        options.toBundle();
     }
 
     @Override

@@ -17,14 +17,14 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:padding="7dp"
-        android:src="@drawable/ic_close"/>
+        android:src="@drawable/icon_close"/>
 
     <ImageView
         android:id="@+id/imageViewMaximize"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:padding="7dp"
-        android:src="@drawable/ic_open"
+        android:src="@drawable/icon_open"
         android:layout_toEndOf="@id/imageViewDismiss"
         android:layout_toRightOf="@id/imageViewDismiss"/>
 
