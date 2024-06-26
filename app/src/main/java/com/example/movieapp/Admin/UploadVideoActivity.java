@@ -39,14 +39,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UploadVideoActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    Uri videoUri;
+    Uri videoUri; //Uniform Resource Identifier, lưu trữ URI của video mà người dùng đã chọn để tải lên
     TextView text_video_selected;
     String videoCategory;
     String videotitle;
     String currentuid;
-    StorageReference mstorageRef;
+    StorageReference mstorageRef; //Biến này lưu trữ tham chiếu đến vị trí trong Firebase Storage nơi video sẽ được tải lên
     StorageTask mUploadsTask;//StorageTask là một lớp trong Firebase SDK nó được sử dụng để thực hiện các tác vụ như tải lên tệp, tải xuống tệp, xóa tệp, di chuyển tệp và cập nhật thông tin về tệp.
-    DatabaseReference referenceVidoes;
+    DatabaseReference referenceVidoes; //Biến này lưu trữ tham chiếu đến vị trí trong Firebase Realtime Database nơi thông tin về video sẽ được lưu trữ
     FirebaseDatabase database;
     EditText video_description;
 
@@ -76,8 +76,8 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
         categories.add("Comedy");
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,categories);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spinner.setAdapter(dataAdapter);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item); //Thiết lập layout được sử dụng khi hiển thị các mục trong danh sách thả xuống của Spinner
+        spinner.setAdapter(dataAdapter); //Gán ArrayAdapter cho Spinner, làm cho Spinner hiển thị danh sách các danh mục đã tạo
     }
 
     @Override
@@ -104,19 +104,17 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
         if ((requestCode == 101)&& (resultCode == RESULT_OK)&& (data.getData()!=null)){
 
             videoUri = data.getData();
-            Toast.makeText(this,referenceVidoes+"", Toast.LENGTH_SHORT).show();
             String path = null;
-            Cursor cursor;
+            Cursor cursor; //Đối tượng Cursor dùng để truy vấn dữ liệu từ Content Provider của hệ thống Android
             int coloum_index_data;
             String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Video.Media.BUCKET_DISPLAY_NAME,MediaStore.Video.Media._ID, MediaStore.Video.Thumbnails.DATA};
             final String orderby = MediaStore.Video.Media.DEFAULT_SORT_ORDER;
             cursor = UploadVideoActivity.this.getContentResolver().query(videoUri,projection,null,null,orderby);//Truy vấn này sẽ trả về thông tin về tệp video đó, bao gồm đường dẫn tệp, tên thư mục chứa tệp, ID của tệp và đường dẫn đến hình ảnh thu nhỏ của tệp.
-            coloum_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);//lấy ra chỉ số của cột được chỉ định
-            Toast.makeText(this,videoUri+"",Toast.LENGTH_SHORT).show();
+            coloum_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);//Lấy chỉ số của cột DATA trong kết quả truy vấn
 
             while (cursor.moveToNext()){
-                path = cursor.getString( coloum_index_data);//lấy giá trị của cột tại vị trí coloum_index_data
-                videotitle = FilenameUtils.getBaseName(path);// FilenameUtils.getBaseName(String filename) là một phương thức của Apache Commons IO, dùng để lấy tên cơ bản của tệp
+                path = cursor.getString( coloum_index_data);//Lấy đường dẫn của tệp video từ cột DATA
+                videotitle = FilenameUtils.getBaseName(path);
 
             }
             text_video_selected.setText(videotitle);
@@ -139,21 +137,21 @@ public class UploadVideoActivity extends AppCompatActivity implements AdapterVie
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("video uploading...");
             progressDialog.show();
-            final StorageReference storageReference = mstorageRef.child(videotitle);
+            final StorageReference storageReference = mstorageRef.child(videotitle); //tạo một tham chiếu mới tới tệp với tên là videotitle
 
             mUploadsTask = storageReference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() { //lấy URL tải xuống của tệp đã tải lên thông qua getDownloadUrl()
                         @Override
                         public void onSuccess(Uri uri) {
-                            String video_url = uri.toString();
+                            String video_url = uri.toString(); //Chuyển đổi đối tượng Uri thành chuỗi URL tải xuống
                             VideoUploadDetails videoUploadDetails = new VideoUploadDetails("", "", "", video_url, videotitle,video_description.getText().toString(), videoCategory);
                             String uploadsid = referenceVidoes.push().getKey();
                             referenceVidoes.child(uploadsid).setValue(videoUploadDetails);
                             currentuid = uploadsid;
-                            progressDialog.dismiss();
+                            progressDialog.dismiss();//Ẩn ProgressDialog sau khi quá trình tải lên và lưu dữ liệu đã hoàn tất
                             if (currentuid.equals(uploadsid)){
                                 startThumbnailsActivity();
                             }
