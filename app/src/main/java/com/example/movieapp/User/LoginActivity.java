@@ -156,8 +156,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() { //được gọi khi Activity chuẩn bị hiển thị lên màn hình
         super.onStart();
+        FirebaseUser user = auth.getCurrentUser();
         if(auth.getCurrentUser() != null){
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            if(isAdmin(user.getEmail())){
+                startActivity(new Intent(LoginActivity.this, UploadVideoActivity.class));
+            }else{
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            }
         }
     }
 

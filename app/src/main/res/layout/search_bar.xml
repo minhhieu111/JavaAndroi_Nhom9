@@ -12,7 +12,7 @@
         android:id="@+id/searchView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:queryHint="Search videos..."
+        android:hint="Search videos..."
         android:iconifiedByDefault="false"
         android:background="@android:color/transparent"
         android:layout_alignParentEnd="true"/>

@@ -33,7 +33,7 @@ public class FloatingWidgetService extends Service {//Service là một thành p
     public FloatingWidgetService() {
     }
     WindowManager mWindowManager;
-    private View mFloatingWidget;
+    View mFloatingWidget;
     Uri videoUri;
     SimpleExoPlayer exoPlayer;
     PlayerView playerView;

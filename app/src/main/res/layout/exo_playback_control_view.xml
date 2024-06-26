@@ -22,7 +22,7 @@
             android:id="@+id/exo_floating_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_open" />
+            android:src="@drawable/icon_open" />
 
         <ImageButton
             android:id="@id/exo_rew"

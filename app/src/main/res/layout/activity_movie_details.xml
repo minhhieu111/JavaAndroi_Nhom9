@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+            android:src="@drawable/background_image"/>
 
         <ImageView
             android:id="@+id/imageView"
@@ -33,16 +33,16 @@
             app:layout_constraintTop_toTopOf="@id/detail_movies_cover"
             app:layout_constraintBottom_toBottomOf="@id/detail_movies_cover" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
             android:id="@+id/play_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:clickable="true"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView"
-            android:src="@drawable/ic_play_erro" />
+            android:src="@drawable/icon_play" />
 
         <ImageView
             android:id="@+id/detail_movies_img"
@@ -51,6 +51,7 @@
             app:layout_goneMarginStart="16dp"
             android:layout_marginLeft="16dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/background_image"
             app:layout_constraintBottom_toBottomOf="@+id/detail_movies_cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_movies_cover" />
