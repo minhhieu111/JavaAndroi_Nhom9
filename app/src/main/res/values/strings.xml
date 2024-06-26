@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MovieApp</string>
     <string name="action_search">Search</string>
+    <string-array name="genders_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>

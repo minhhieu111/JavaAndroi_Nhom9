@@ -52,4 +52,15 @@
         android:layout_marginTop="11dp"
         tools:layout_editor_absoluteY="10dp" />
 
+    <ImageView
+        android:id="@+id/btnAccount"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
